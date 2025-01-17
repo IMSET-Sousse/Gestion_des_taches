@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Tâches</title>
+    <style>
+        /* Définition des couleurs de base et du fond */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f8fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* Style du titre principal */
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        /* Lien pour ajouter une tâche */
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Liste de tâches */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Style des éléments de la liste des tâches */
+        ul li {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        ul li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Style pour les titres des tâches */
+        ul li strong {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* Liens des actions de chaque tâche (marquer comme fait, supprimer) */
+        ul li a {
+            color: #007BFF;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 1em;
+        }
+
+        ul li a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Liens spécifiques pour marquer comme fait et supprimer */
+        ul li a.toggle-done {
+            color: #4CAF50;
+        }
+
+        ul li a.delete-task {
+            color: #e74c3c;
+        }
+
+        /* Espacement entre les actions et les autres éléments */
+        ul li a:not(:last-child) {
+            margin-right: 10px;
+        }
+
+        /* Responsive pour les petits écrans */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            ul li {
+                padding: 12px;
+            }
+
+            a {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des Tâches</h1>
+    
+    <!-- Lien pour ajouter une nouvelle tâche -->
+    <a href="{{ url_for('add_task') }}">Ajouter une nouvelle tâche</a>
+    
+    <!-- Liste des tâches -->
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <!-- Affichage du titre et de la description de la tâche -->
+            <strong>{{ task.title }}</strong> - {{ task.description }}
+            
+            <!-- Lien pour marquer la tâche comme faite ou non faite -->
+            <a href="{{ url_for('toggle_task', id=task.id) }}" class="toggle-done">
+                {{ 'Marquer comme fait' if not task.done else 'Marquer comme non fait' }}
+            </a>
+            
+            <!-- Lien pour supprimer la tâche -->
+            <a href="{{ url_for('delete_task', id=task.id) }}" class="delete-task">Supprimer</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
